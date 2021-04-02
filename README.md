@@ -7,7 +7,7 @@
 Build a React app containing:
 
 - An input where the user can enter the values in an array
-- A select to choose between calculating the sum, the average, and the [mode](https://www.mathsisfun.com/definitions/mode.html) (most frequently occurring number)
+- A select to choose between calculating the sum, the average, and the [mode](https://www.mathsisfun.com/definitions/mode.html) _(most frequently occurring number)_
 - A calculate button
 
 ## Getting Started
