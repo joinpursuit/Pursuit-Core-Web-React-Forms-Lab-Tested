@@ -64,7 +64,7 @@ class App extends React.Component {
 
     const rawValues = this.state.input.split(",");
     const numberValues = rawValues.map((value) => parseFloat(value));
-    if (!rawValues.length || rawValues.length !== numberValues.length) {
+    if (!numberValues.length || numberValues.some((value) => isNaN(value))) {
       this.setState({
         result: ["Invalid input."],
       });

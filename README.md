@@ -6,9 +6,33 @@
 
 Build a React app containing:
 
+<<<<<<< HEAD
 - An input where the user can enter the values in an array
 - A select to choose between calculating the sum, the average, and the [mode](https://www.mathsisfun.com/definitions/mode.html) _(most frequently occurring number)_
 - A calculate button
+=======
+- An input where the user can enter comma-separated number values in an array
+- A select to choose between calculating the sum, the average, and the [mode](https://www.mathsisfun.com/definitions/mode.html) (most frequently occurring number)
+- A calculate button that, when pressed, puts the result of the selected operation on the input numbers on the screen
+  - If the numbers are invalid for some reason, put `Invalid input.`
+
+For example, if the text input contains `1,3,3,7` and the select is set to `sum`, clicking the button should print `14` to the screen.
+Switching the select to `mode` and clicking the button again would replace that with `3`.
+
+![reactFormsLab](./reactFormsLab.gif)
+
+| input | operation | result         |
+| ----- | --------- | -------------- |
+| 1     | average   | 1              |
+| 1     | mode      | 1              |
+| 1     | sum       | 1              |
+| 1,3,5 | average   | 2              |
+| 1,3,5 | mode      | 3              |
+| 1,3,5 | sum       | 9              |
+|       | \*        | 1              |
+| apple | \*        | Invalid input. |
+| 1,pie | \*        | Invalid input. |
+>>>>>>> tests
 
 ## Getting Started
 
@@ -17,7 +41,6 @@ Build a React app containing:
 - `cd` to the directory where you cloned it
 - `npm install` to install dependencies
 - `npm run cypress` to open the cypress testing window
-- `npm test` to run jest / node tests
 
 > _Note_: Remember to `git add`, `git commit` and `git push` regularly
 

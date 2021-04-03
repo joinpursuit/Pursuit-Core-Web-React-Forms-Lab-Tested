@@ -5,11 +5,13 @@ describe("index", () => {
 
   it("says 'Invalid input.' if pressed with no input", () => {
     cy.get("button").click();
+    cy.contains("Invalid input.");
   });
 
   it("says 'Invalid input.' if pressed with invalid input", () => {
     cy.get("input").type("a,b,c");
     cy.get("button").click();
+    cy.contains("Invalid input.");
   });
 
   it("says the sum when that is the selected option", () => {
