@@ -4,8 +4,11 @@ export default class App extends Component {
   constructor(){
     super()
     this.state ={
+      sum: "",
       number: ""
     }
+    this.number= ''
+    this.mynum = []
   }
 
   handleValueChange =(e)=>{
@@ -16,58 +19,79 @@ export default class App extends Component {
     })
 
   }
+  nanNUM = () => {
+    this.mynum = this.state.number.split(",").map((el) => Number(el))
 
-  handleSum =(e)=>{
+    return this.mynum.every((el) => {
+    return ! Number.isNaN(el)
+    }) 
+  }
+
+  handleSum =(e)=>{ 
     let sum = 0
-    for(let i = 0; i < e.taget.value; i++){
-      sum = sum + sum[i]
-    }
-    console.log(sum.value)
-    this.setState({
-      number: sum
-    })
+    let arr = this.mynum
 
+    for(let i in arr){
+      sum = sum + arr[i]
+    } return this.setState({sum: sum})
+   
   }
 
   handleAvarege =(e)=>{
-    const avera = this.setState({number: e.target.value})
-      
-    console.log(avera)
-    let average = avera.length
-    console.log(average.value)
-     
-    this.setState({
-      number: average
+    let avera = this.handleSum()
+    console.log()
+     return this.setState({
+      sum: (avera / this.mynum.length)
     })
-
-
   }
+  
   handleMode =(e) =>{
-
+       const object = this.mynum
+       let num1 = 0
+       let num2 = -Infinity
+       
+       for(let key in object){
+         let val = object[key]
+         if(val > num1){
+           num1 = val
+           num2 = num1
+           num2 = key
+         } 
+       }
+       this.setState({sum: num2})
   }
 
   handleSubmit =(e) =>{
-    
-
+    e.preventDefault()
+    if(this.state.value && this.nanNUM()) {
+    this.handleSum()
+    }else if(this.state.value && this.nanNUM()){
+      this.handleMode()
+    }else if(this.state.number && this.nanNUM()){
+      this.handleAvarege()
+    }else{
+      this.setState({sum: "Invalid input."})
+    }
   }
   render() {
+
     return (
       <div>
        
           <h1>Enter each number in the array, separated by a ','</h1>
           <form onSubmit={this.handleSubmit}>
-            <label htmlFor='type'></label>
+            <label htmlFor='number'></label>
             <input type='text' name='number' placeholder="type" onChange={this.handleValueChange} value={this.state.number}></input>
-            <select >
+            <select onChange={this.handleValueChange} >
               <option></option>
-              <option value='Sum' onChange={this.handleSum}>Sum</option>
+              <option value='Sum'>Sum</option>
               <option value='Mode'>Mode</option>
               <option value='Average'>Average</option>
             </select>
-            <button onChange={this.handleSum}>Calculate</button>
-            <ul onChange={this.handleSum}>
-
-            </ul>
+            <button>Calculate</button>
+            <li>
+               {this.state.sum}
+            </li>
           </form>
        
         
