@@ -8,9 +8,7 @@ export class ArrayForm extends Component {
             value: "",
             answer:""
         }
-        this.answer = ""
         this.newArray = []    
- 
     }
 
     handleArrayChange = (e) => {
