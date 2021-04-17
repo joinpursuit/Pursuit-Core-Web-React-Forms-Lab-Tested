@@ -1,78 +1,46 @@
 import React from "react";
 
 class Calculate extends React.Component {
-  state = { input: "", inputArr: [], mathDefault: "sum" , sum: 0, average: 0, mode: 0};
+  state = {
+    input: "",
+    mathDefault: "sum",
+    result: null
+  };
   
+  handleCalculation = () => {
+    const {mathDefault, input} = this.state
+    const newArr = input.split(",").map(Number);
+    if(mathDefault === 'sum'){
+      this.setState({result: newArr.reduce((acc, el) => acc + el, 0)});
+    } else if (mathDefault === 'average') {
+      console.log('average');
+    } else if (mathDefault === 'mode') {
+      console.log('mode');
+    }}
+
   handleInputCalculate = (e) => {
     e.preventDefault();
-
-    console.log(this.state)
-    // const {input,inputArr,mathDefault,sum} = this.state
-    // console.log(input);
-
-    /*
-    we take in input convert to array,
-    map out the array convert each element of the array to a number
-
-    we can sum
-    we can average
-    we can mode 
-    */
-
-    // this.setState({
-     
-    // });
-    // const numbers = inputArr.map((num) => {
-    //   return parseInt(num);
-    // })
-    // console.log(inputArr);
-    // console.log(numbers)
-
-    // if(mathDefault === 'sum'){
-    //   this.setState({sum: inputArr.reduce((a, b) => a + b, sum)});
-    //   // console.log(this.state.sum);
-    // } else if (mathDefault === 'average') {
-    //   console.log('average');
-    // } else if (mathDefault === 'mode') {
-    //   console.log('mode');
-    // }
+    this.handleCalculation();
+    console.log(this.state);
   };
-
-  /**  */
 
   handleInputChange = (e) => {
     this.setState({
-      // input: e.target.value.split(',').map((num) => parseInt(num))
-      // input: e.target.value.split(',').map((num) => Number(num))
-      input: e.target.value.split(','),
-      // inputArr: this.input.map((num) => {
-      //     return parseInt(num);
-      //   })
-      
+      input: e.target.value
     });
-    
-    // console.log(e.target.value);
   };
-  
-  convertToNumber = (e) => {
-    e.preventDefault();
-    const { input,inputArr } = this.state;
-    console.log(input)
-    this.setState({
-      inputArr: input.map((num) => Number(num))
-    });
-    console.log(inputArr)
-  }
 
   handleSelectChange = (e) => {
-    this.setState({ mathDefault: e.target.value})
-  }
+    this.setState({ mathDefault: e.target.value });
+  };
 
   render() {
-      const { input, mathDefault } = this.state;
-      return (
+    const { input, result, mathDefault } = this.state;
+    return (
       <>
-        <form onSubmit={this.handleInputCalculate} onSubmit={this.convertToNumber}>
+        <form
+          onSubmit={this.handleInputCalculate}
+        >
           <label>
             Enter each number in the array, separated by a ','
             <input onChange={this.handleInputChange} value={input} />
@@ -84,10 +52,13 @@ class Calculate extends React.Component {
           </select>
           <button>Calculate</button>
         </form>
-        <p></p>
+        <p>{result}</p>
       </>
     );
   }
 }
 
 export default Calculate;
+
+
+
