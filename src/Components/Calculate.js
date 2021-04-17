@@ -17,14 +17,14 @@ class Calculate extends React.Component {
   }
 
   render() {
-      const { inputArr, mathDefault } = this.state;
+      const { input, mathDefault } = this.state;
       console.log(this.state)
       return (
       <>
         <form onSubmit={this.handleCalculate}>
           <label>
             Enter each number in the array, separated by a ','
-            <input onChange={this.handleInputChange} value={inputArr} />
+            <input onChange={this.handleInputChange} value={input} />
           </label>
           <select onChange={this.handleSelectChange} value={mathDefault}>
             <option value="sum">Sum</option>
