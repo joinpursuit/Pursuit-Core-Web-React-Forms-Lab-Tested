@@ -7,22 +7,42 @@ class NumberInputForm extends React.Component {
     e.preventDefault();
     const { math, input } = this.state;
     // debugger
-    const arrSplit = input.split(",").map(Number)
+    const arrSplit = input.split(",").map(Number);
     let sumNum = 0;
     let avg = 0;
     if (math === "sum") {
-        arrSplit.forEach((item) => {
-            sumNum += item;
-        });
-        this.setState({answer: sumNum});
+      arrSplit.forEach((item) => {
+        sumNum += item;
+      });
+      this.setState({ answer: sumNum });
     } else if (math === "average") {
-        arrSplit.forEach((item) => {
-            sumNum += item;
-            avg = sumNum / arrSplit.length;
-        })
-        this.setState({answer: avg});
+      arrSplit.forEach((item) => {
+        sumNum += item;
+        avg = sumNum / arrSplit.length;
+      });
+      this.setState({ answer: avg });
     } else if (math === "mode") {
-        
+      arrSplit.sort((item) => {
+        let max = 1,
+          mode = arrSplit[0];
+        let currCount = 1;
+
+        for (let i = 1; i < arrSplit.length; i++) {
+          if (arrSplit[i] == arrSplit[i - 1]) currCount++;
+          else {
+            if (currCount > max) {
+              max = currCount;
+              mode = arrSplit[i - 1];
+            }
+            currCount = 1;
+          }
+        }
+        if (currCount > max) {
+          max = currCount;
+          mode = arrSplit[arrSplit.length - 1];
+        }
+        this.setState({ answer: mode});
+      });
     }
   };
 
