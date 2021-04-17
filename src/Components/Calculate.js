@@ -42,6 +42,8 @@ class Calculate extends React.Component {
 
   handleInputChange = (e) => {
     this.setState({
+      // input: e.target.value.split(',').map((num) => parseInt(num))
+      // input: e.target.value.split(',').map((num) => Number(num))
       input: e.target.value.split(','),
       // inputArr: this.input.map((num) => {
       //     return parseInt(num);
@@ -49,9 +51,18 @@ class Calculate extends React.Component {
       
     });
     
-
     // console.log(e.target.value);
   };
+  
+  convertToNumber = (e) => {
+    e.preventDefault();
+    const { input,inputArr } = this.state;
+    console.log(input)
+    this.setState({
+      inputArr: input.map((num) => Number(num))
+    });
+    console.log(inputArr)
+  }
 
   handleSelectChange = (e) => {
     this.setState({ mathDefault: e.target.value})
@@ -61,7 +72,7 @@ class Calculate extends React.Component {
       const { input, mathDefault } = this.state;
       return (
       <>
-        <form onSubmit={this.handleInputCalculate}>
+        <form onSubmit={this.handleInputCalculate} onSubmit={this.convertToNumber}>
           <label>
             Enter each number in the array, separated by a ','
             <input onChange={this.handleInputChange} value={input} />
