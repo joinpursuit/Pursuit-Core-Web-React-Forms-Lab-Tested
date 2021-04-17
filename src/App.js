@@ -1,11 +1,10 @@
-
 import "./App.css";
-import DropDown from "./Components.js/DropDown";
+import NumberInputForm from "./Components/NumberInputForm"
 
 function App() {
   return (
     <div className="App">
-      <DropDown />
+     <NumberInputForm />
     </div>
   );
 }
