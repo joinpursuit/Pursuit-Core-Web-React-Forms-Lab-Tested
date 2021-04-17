@@ -2,13 +2,17 @@ import React from "react";
 
 class Calculate extends React.Component {
   state = { input: "", inputArr: "", mathDefault: "sum" };
-
+  
   handleInputCalculate = (e) => {
     e.preventDefault();
+    console.log(this.state);
   };
 
   handleInputChange = (e) => {
-    this.setState({ input: e.target.value})
+    this.setState({
+      input: e.target.value,
+      inputArr: [...this.state.input]
+    });
     // console.log(e.target.value);
   };
 
@@ -18,13 +22,12 @@ class Calculate extends React.Component {
 
   render() {
       const { input, mathDefault } = this.state;
-      console.log(this.state)
       return (
       <>
-        <form onSubmit={this.handleCalculate}>
+        <form onSubmit={this.handleInputCalculate}>
           <label>
             Enter each number in the array, separated by a ','
-            <input onChange={this.handleInputChange} value={input} />
+43            <input onChange={this.handleInputChange} value={input} />
           </label>
           <select onChange={this.handleSelectChange} value={mathDefault}>
             <option value="sum">Sum</option>
