@@ -28,7 +28,7 @@ class NumberInputForm extends React.Component {
         let currCount = 1;
 
         for (let i = 1; i < arrSplit.length; i++) {
-          if (arrSplit[i] == arrSplit[i - 1]) currCount++;
+          if (arrSplit[i] === arrSplit[i - 1]) currCount++;
           else {
             if (currCount > max) {
               max = currCount;
@@ -41,7 +41,7 @@ class NumberInputForm extends React.Component {
           max = currCount;
           mode = arrSplit[arrSplit.length - 1];
         }
-        this.setState({ answer: mode});
+        this.setState({ answer: mode });
       });
     }
   };
@@ -49,11 +49,6 @@ class NumberInputForm extends React.Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    //     if (value === "sum") {
-    //         return ((prevState) => {
-    //             [...prevState, name]
-    //         }
-    //     }
   };
 
   // the input/select needs to mirror the state
