@@ -1,27 +1,25 @@
 import React from "react";
 
 class Form extends React.Component {
-  state = { input: "", operation: "sum", result: "" };
+  state = { input: "", operation: "sum", result: 0 };
 
   handleSubmit = (e) => {
-    const { input, operation } = this.state;
+    const {  input, operation } = this.state;
     e.preventDefault();
-    console.log(this.state);
     const arr = input.split(",");
-    console.log(arr);
     let total = 0;
-    if (operation === "sum") {
+    if (input === "") {
+      this.setState({ result: "Invalid input." });
+    } else if (operation === "sum") {
       arr.forEach((num) => {
         total += Number(num);
-        this.setState({ result: this.state.result + total });
+        this.setState({ result: total });
       });
-      console.log(total);
     } else if (operation === "average") {
       arr.forEach((num) => {
         total += Number(num);
-        this.setState({ result: this.state.result + total / arr.length });
+        this.setState({ result: total / arr.length });
       });
-      console.log(total / arr.length);
     } else if (operation === "mode") {
       const obj = {};
       for (let i = 0; i < arr.length; i++) {
@@ -31,19 +29,18 @@ class Form extends React.Component {
           obj[arr[i]] = 1;
         }
       }
-      console.log(obj);
       let num = 0;
       let mostCommonKey;
       for (let key in obj) {
         let value = obj[key];
         if (value > num) {
           num = value;
+          mostCommonKey = key;
         }
-        mostCommonKey = key;
       }
-      this.setState({ result: this.state.result + mostCommonKey})
+      this.setState({ result: mostCommonKey });
+      console.log(mostCommonKey);
     }
-   this.setState({result:""})
   };
 
   handleChange = (e) => {
@@ -65,7 +62,7 @@ class Form extends React.Component {
             name="input"
             type="text"
             onChange={this.handleChange}
-            value={this.state.input}
+            value={input}
           />
           <br />
           <br />
@@ -82,7 +79,7 @@ class Form extends React.Component {
           <br />
           <button>Calculate</button>
         </form>
-        <p>{result}</p>
+        <p>{Number.isNaN(result) ? "Invalid input." : result}</p>
       </div>
     );
   }
