@@ -50,24 +50,22 @@ class App extends React.Component {
   }
 
   mode = (numbers) => {
-    let modes = [], count = [], i, number, maxIndex = 0;
-
-    for (i = 0; i < numbers.length; i += 1) {
-      number = numbers[i];
-      count[number] = (count[number] || 0) + 1; 
-      if (count[number] > maxIndex) {
-        maxIndex = count[number];
+    let count = {}
+    let modeArr = [];
+    let max = -1;
+    for(const num of numbers){
+      count[num] ? count[num]++ : count[num] = 1;
+      if(count[num]>max) {
+        max = count[num]
       }
     }
 
-    for (i in count)
-      if (count.hasOwnProperty(i)) {
-        if (count[i] === maxIndex) {
-          modes.push(Number(i));
-        }
+    for(const num in count){
+      if(count[num]===max){
+        modeArr.push(num)
       }
-
-    return modes;
+    }
+    return modeArr;
   }
 
 
