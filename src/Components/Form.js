@@ -5,70 +5,41 @@ class Form extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		const { input, calculation } = this.state;
+		let { input, calculation, total } = this.state;
 		let numArr = input.split(",").map(Number);
-		// now we have an array of numbers
 		if (calculation === "sum") {
 			let sum = 0;
 			numArr.forEach((num) => {
 				sum += num;
 			});
 			this.setState({ total: sum });
-			// this.setState({ total: sum, input: ""})
 		} else if (calculation === "average") {
 			let sum = 0;
 			numArr.forEach((num) => {
 				sum += num;
-				total = sum / numArr.length;
+				this.setState({total: sum / numArr.length})
 			});
 		}
-		if (claculation === "mode") {
+		if (calculation === "mode") {
 			for (let i = 0; i < numArr.length; i++) {
 				for (let j = 0; j < i; j++) {
 					if (numArr[j] === numArr[i]) {
-						total = numArr[j];
-						count++;
+						this.setState({total: numArr[j]})
+					
 					}
 				}
 			}
 		}
 
-		//     .map((num) => {
-		// 	if (calculation === "sum") {
-		// 		// add the nums
-		// 		this.setState((prevState) => {
-		// 			const { total } = prevState;
-		// 			return { total:total+ Number(num), input: "" };
-		// 		});
-		// 	} else if (calculation === "average") {
-		// 		// find average ==> sum / numArr.length
-		//         this.setState((prevState) => {
-		//             // const { total } = prevState;
-		//             return {
-		//                 total: (total + Number(num)) / numArr.length,
-		//                 input: "",
-		//             };
-
-		// 		});
-		// 	} else if (calculation === "mode") {
-		// 		// find mode ==> number that occurs the most
-		//     }
-
-		// });
-
 		console.log(input);
 		console.log(numArr);
 	};
 
-	// handleSelect = (e) => {
-	// 	this.setState({ calculation: e.target.value});
-	// }
 
 	handleChange = (e) => {
 		const { name, value } = e.target;
 		this.setState({ [name]: value });
 
-		// this.setState({ input: value});
 	};
 
 	render() {
@@ -97,7 +68,6 @@ class Form extends React.Component {
 					<button>Calculate</button>
 					<p>
 						{calculation}: {total}
-						{/* {calculation}: {sum} */}
 					</p>
 				</form>
 			</div>
