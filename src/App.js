@@ -2,33 +2,31 @@ import React from "react";
 import "./App.css";
 
 class App extends React.Component {
-  state = { input: [], answer: "", sum: false,  average: false, mode: false, errorMessage: "" }
+  state = { input: [], answer: "", answer2: "", answer3: "", sum: false,  average: false, mode: false, errorMessage: "" }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let str = ""
-    const { input, operation, sum, average, mode} = this.state;
-    if (input.length === 0) {
-      this.setState({ errorMessage: "Invalid input.", answer: "" })
+    //this.setState({answer: "", answer2: "", answer3:"" })
+   
+    const { input, sum, average, mode} = this.state;
+    
+    if (input.length === 0||input[0]==="") {
+      this.setState({ errorMessage: "Invalid input.", answer: "", answer2: "", answer3:"" })
     } else if (!input.every(value => !isNaN(value))) {
-      this.setState({ errorMessage: "Invalid input." , answer: ""})
+      this.setState({ errorMessage: "Invalid input." , answer: "",answer2: "", answer3:"" })
     } else {
       this.setState({ errorMessage: "" })
       
       if (sum) {
-        let total = input.reduce((a, b) => a + Number(b), 0);
-        str += total + "\n"
-        //this.setState({ answer: total })
+        let total = "Sum: " + input.reduce((a, b) => a + Number(b), 0);
+        this.setState({ answer: total })
       } if (average) {
-        let avg = input.reduce((a, b) => a + Number(b), 0) / input.length;
-        str += avg + "\n"
-        //this.setState({ answer: avg })
+        let avg = "Average: " + input.reduce((a, b) => a + Number(b), 0) / input.length;
+        this.setState({ answer2: avg })
       } if (mode) {
-        let modeArr = this.mode(input).join(",")
-        str += modeArr + "\n"
-        //this.setState({ answer: modeArr })
+        let modeArr = "Mode: " + this.mode(input).join(",")
+        this.setState({ answer3: modeArr })
       }
-      this.setState({ answer: str })
 
     }
   };
@@ -36,10 +34,10 @@ class App extends React.Component {
   handleChange = (e) => {
     let inputArr = e.target.value.split(",");
     this.setState({ input: inputArr });
-    console.log(inputArr)
   };
 
   handleEquation = (e) => {
+    this.setState({sum: false, average: false, mode: false})
     if(e.target.selectedOptions[0]){
       this.setState({[e.target.selectedOptions[0].value]: true })
     }
@@ -49,7 +47,6 @@ class App extends React.Component {
     if(e.target.selectedOptions[2]){
       this.setState({[e.target.selectedOptions[2].value]: true })
     }
-    //this.setState({ operation: e.target.value })
   }
 
   mode = (numbers) => {
@@ -75,7 +72,7 @@ class App extends React.Component {
 
 
   render() {
-    const { input, answer, errorMessage } = this.state;
+    const { input, answer, answer2, answer3, errorMessage } = this.state;
     console.log(this.state);
 
     return (
@@ -99,6 +96,8 @@ class App extends React.Component {
           <button>Calculate</button>
           <br></br>
           <h2 name="answer" value={answer}>{answer}</h2>
+          <h2 name="answer2" value={answer2}>{answer2}</h2>
+          <h2 name="answer3" value={answer3}>{answer3}</h2>
           <h2>{errorMessage}</h2>
         </form>
       </>
