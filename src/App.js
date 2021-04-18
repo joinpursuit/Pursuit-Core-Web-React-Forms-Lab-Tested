@@ -7,7 +7,6 @@ export default class App extends Component {
       count: "",
       number: "",
       value: ""
-     
     }
     this.number= ''
     this.mynum = []
@@ -25,7 +24,8 @@ export default class App extends Component {
     this.setState({number: e.target.value + "," })
   }
   handleValue = (e)=>{
-    this.setState({value: e.target.value + ","})
+    const {value} =  e.target
+    this.setState({value: value})
   }
   nanNUM = () => {
     this.mynum = this.state.number.split(",").map((el) => Number(el))
@@ -38,13 +38,10 @@ export default class App extends Component {
   handleSum =(e)=>{ 
     let sum = 0
     let arr = this.mynum
-    // this.state.value = "Sum"; 
 
     for(let i in arr){
       sum = sum + arr[i]
     } return this.setState({count: sum}); 
-    // this.state.operator = "Sum"; 
-    
   }
 
   handleAvarege =(e)=>{
@@ -79,19 +76,18 @@ export default class App extends Component {
     e.preventDefault()
     
     this.setState({
-      number: '',
-      value: this.state.number
+      number: ''
     })
-    if(this.nanNUM()){
-      if(this.state.number) {
-    this.handleSum()
-    }else if(this.state.number){
-      this.handleMode()
-    }else if(this.state.number){
-      this.handleAvarege()
+    if(this.state.number && this.nanNUM()){
+        if(this.state.value === "Sum") {
+      this.handleSum()
+      }else if(this.state.value === "Mode"){
+        this.handleMode()
+      }else if(this.state.value === "Average"){
+        this.handleAvarege()
+      }
     }else{
       this.setState({count: "Invalid input."})
-    }
     }
     
   }
@@ -106,8 +102,8 @@ export default class App extends Component {
           <form onSubmit={this.handleSubmit} className= 'form'>
             <label htmlFor='number'></label>
             <input type='text' name='number' placeholder="type" onChange={this.handleValChange} value={this.state.number}></input>
-            <select >
-              <option onChange={this.handleValue} value={this.state.value}></option>
+            <select onChange={this.handleValue} value={this.state.value}>
+              <option ></option>
               <option value='Sum'>Sum</option>
               <option value='Mode'>Mode</option>
               <option value='Average'>Average</option>
