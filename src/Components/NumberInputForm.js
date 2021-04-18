@@ -6,11 +6,12 @@ class NumberInputForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { math, input } = this.state;
-    // debugger
     const arrSplit = input.split(",").map(Number);
     let sumNum = 0;
     let avg = 0;
-    if (math === "sum") {
+    if (math === "") {
+        this.setState({answer: "Invalid input."})
+    } else if (math === "sum") {
       arrSplit.forEach((item) => {
         sumNum += item;
       });
@@ -22,41 +23,31 @@ class NumberInputForm extends React.Component {
       });
       this.setState({ answer: avg });
     } else if (math === "mode") {
-      arrSplit.sort((item) => {
-        let max = 1,
-          mode = arrSplit[0];
-        let currCount = 1;
-
-        for (let i = 1; i < arrSplit.length; i++) {
-          if (arrSplit[i] == arrSplit[i - 1]) currCount++;
-          else {
-            if (currCount > max) {
-              max = currCount;
-              mode = arrSplit[i - 1];
-            }
-            currCount = 1;
-          }
+      let obj = [];
+      let mostCommon = -Infinity;
+      let mode;
+      for (let i = 0; i < arrSplit.length; i++) {
+        const el = arrSplit[i];
+        if (obj[el]) {
+          obj[el] += 1;
+        } else {
+          obj[el] = 1;
         }
-        if (currCount > max) {
-          max = currCount;
-          mode = arrSplit[arrSplit.length - 1];
+      }
+      for (let key in obj) {
+        if (obj[key] > mostCommon) {
+          mostCommon = obj[key];
+          mode = key;
         }
-        this.setState({ answer: mode});
-      });
+      }
+      this.setState({ answer: mode });
     }
   };
 
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    //     if (value === "sum") {
-    //         return ((prevState) => {
-    //             [...prevState, name]
-    //         }
-    //     }
   };
-
-  // the input/select needs to mirror the state
 
   render() {
     console.log(this.state);
@@ -72,9 +63,9 @@ class NumberInputForm extends React.Component {
             <option value="average">Average</option>
             <option value="mode">Mode</option>
           </select>
-          <button type="submit">Calculate</button>
+          <button>Calculate</button>
         </form>
-        <h3>{answer}</h3>
+        <h3>{Number.isNaN(answer) ? "Invalid input." : answer}</h3>
       </div>
     );
   }
