@@ -3,7 +3,7 @@ import React from "react";
 class Form extends React.Component {
   state = {
     input: "",
-    select: "",
+    select: "sum",
     result: "",
   };
   handleChange = (e) => {
@@ -13,9 +13,9 @@ class Form extends React.Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    const { input, select } = this.state;
-    if ((!isNaN(input) && input.includes(",")) || input !== "" ) {
-      const arr = input.split(",");
+    const { input, select, result } = this.state;
+    const arr = input.split(",");
+    if (input !== "") {
       let sum = 0;
       if (select === "sum") {
         arr.map((el) => (sum += Number(el)));
@@ -30,6 +30,10 @@ class Form extends React.Component {
         let count = {};
         let highest = -Infinity;
         arr.forEach((el) => {
+          if (typeof Number(el) !== "number") {
+            highest = "Invalid input."
+            return 
+          }
           if (count[el] > highest) {
             count[el]++;
             highest = Number(el);
@@ -50,13 +54,12 @@ class Form extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <input name="input" value={input} onChange={this.handleChange} />
         <select name="select" value={select} onChange={this.handleChange}>
-          <option></option>
-          <option>sum</option>
-          <option>average</option>
-          <option>mode</option>
+          <option value="sum">sum</option>
+          <option value="average">average</option>
+          <option value="mode">mode</option>
         </select>
         <button>Calculate</button>
-        <h2>{result}</h2>
+        <h2>{Number.isNaN(result) ? "Invalid input." : result}</h2>
       </form>
     );
   }
