@@ -11,16 +11,6 @@ class Calculate extends React.Component {
     this.setState({ option: e.target.value });
   };
 
-  // handleSum = () => {
-  //   // debugger
-  //   const { inputArray } = this.state;
-  //   let total = 0;
-
-  //   total += total;
-  //   this.setState({ answer: total });
-  //   console.log(this.setState);
-  // };
-
   doMath = () => {
     const { input, option } = this.state;
     const array = input.split(",").map(Number);
@@ -34,27 +24,40 @@ class Calculate extends React.Component {
       array.forEach((num) => {
         const avg = (sum += num) / array.length;
         this.setState({ answer: avg });
-        // debugger
       });
     } else if (option === "mode") {
+      let occurrence = {};
+      array.forEach((el) => {
+        if (occurrence[el]) {
+          occurrence[el] += 1;
+        } else {
+          occurrence[el] = 1;
+        }
+      });
+      const mostFreq = this.findMostFreq(occurrence);
+      this.setState({ answer: mostFreq });
     }
+  };
+
+  findMostFreq = (occurrence) => {
+    let maxCount = 0;
+    let mostFreq;
+    for (let el in occurrence) {
+      if (occurrence[el] > maxCount) {
+        maxCount = occurrence[el];
+        mostFreq = el;
+      }
+    }
+    return mostFreq;
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // debugger
-    // const { inputArray, math } = this.state;
-    // let sum = 0;
-    // if (math === "sum") {
-    //   sum += inputArray;
-    //   return sum;
     console.log(this.state);
     this.doMath();
   };
-
   render() {
     const { input, option, answer } = this.state;
-    // debugger;
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
