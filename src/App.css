@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.btn {
+  float: right;
+  justify-content: space-evenly;
+}
+
+.selectbox {
+  float: right;
+}
+
+.box {
+  justify-content: center;
+}
