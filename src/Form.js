@@ -1,24 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
 
-class Form extends React.Component {
-  state = { input: "", operation: "sum", result: 0 };
+const Form = () => {
+  const [input, setInput] = useState("")
+  const [operation, setOperation] = useState("sum") 
+  const [result, setResult] = useState(0)
 
-  handleSubmit = (e) => {
-    const {  input, operation } = this.state;
+  const handleSubmit = (e) => {
     e.preventDefault();
     const arr = input.split(",");
     let total = 0;
     if (input === "") {
-      this.setState({ result: "Invalid input." });
+      setResult("Invalid input.");
     } else if (operation === "sum") {
       arr.forEach((num) => {
         total += Number(num);
-        this.setState({ result: total });
+        setResult(total );
       });
     } else if (operation === "average") {
       arr.forEach((num) => {
         total += Number(num);
-        this.setState({ result: total / arr.length });
+        setResult( total / arr.length );
       });
     } else if (operation === "mode") {
       const obj = {};
@@ -38,30 +39,28 @@ class Form extends React.Component {
           mostCommonKey = key;
         }
       }
-      this.setState({ result: mostCommonKey });
+      setResult( mostCommonKey );
       console.log(mostCommonKey);
     }
   };
 
-  handleChange = (e) => {
-    this.setState({ input: e.target.value });
+  const handleChange = (e) => {
+    setInput(e.target.value);
   };
 
-  handleOperation = (e) => {
-    this.setState({ operation: e.target.value });
+  const handleOperation = (e) => {
+    setOperation( e.target.value );
   };
 
-  render() {
-    const { input, operation, result } = this.state;
-    console.log(this.state);
+  
     return (
       <div>
         <h1>Enter each number in the array, separated by a ','</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <input
             name="input"
             type="text"
-            onChange={this.handleChange}
+            onChange={handleChange}
             value={input}
           />
           <br />
@@ -69,7 +68,7 @@ class Form extends React.Component {
           <select
             name="operation"
             value={operation}
-            onChange={this.handleOperation}
+            onChange={handleOperation}
           >
             <option value="sum">sum</option>
             <option value="average">average</option>
@@ -83,6 +82,6 @@ class Form extends React.Component {
       </div>
     );
   }
-}
+
 
 export default Form;
