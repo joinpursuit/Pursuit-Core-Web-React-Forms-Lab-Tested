@@ -17,6 +17,7 @@ const Form = () =>{
           arr.forEach((num) => {
             total += Number(num);
            setResult(total);
+
         });
         } else if (operation === "average") {
           arr.forEach((num) => {
@@ -25,26 +26,26 @@ const Form = () =>{
           });
         } else if (operation === "mode") {
           const obj = {};
-          for (let i = 0; i < arr.length; i++) {
-            if (obj[arr[i]]) {
-              obj[arr[i]] += 1;
-            } else {
-              obj[arr[i]] = 1;
+          let num = 0
+          let highestKey = -Infinity
+
+          arr.forEach((num)=>{
+            obj[num] = (obj[num]|| 0) +1
+          })
+
+          for(let key in obj){
+            const val = obj[key]
+            if(val > num  ){
+              num =val
+              highestKey = key
             }
           }
-          console.log(obj);
-          let num = 0;
-          let mostCommonKey;
-          for (let key in obj) {
-            let value = obj[key];
-            if (value > num) {
-              num = value;
-              mostCommonKey = key;
-            }
-          }
-          setResult( mostCommonKey)
-        }
-      };
+          setResult(highestKey)
+      } else {
+        setResult("Invalid input.")
+      }
+
+    }
 
 
   const handleChange = (e) => {
