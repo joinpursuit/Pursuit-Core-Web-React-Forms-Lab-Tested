@@ -1,29 +1,32 @@
-import React from "react";
+//React Hooks Lab: refactored to Hooks
 
-class Calculate extends React.Component {
-  state = { input: "", option: "", answer: "" };
+import { useState } from "react";
 
-  handleChange = (e) => {
-    this.setState({ input: e.target.value });
+const Calculate = () => {
+  const [input, setInput] = useState("");
+  const [option, setOption] = useState("");
+  const [answer, setAnswer] = useState("");
+
+  const handleChange = (e) => {
+    setInput(e.target.value);
   };
 
-  handleOptions = (e) => {
-    this.setState({ option: e.target.value });
+  const handleOptions = (e) => {
+    setOption(e.target.value);
   };
 
-  doMath = () => {
-    const { input, option } = this.state;
+  const doMath = () => {
     const array = input.split(",").map(Number);
     let sum = 0;
     if (option === "sum") {
       array.forEach((num) => {
         sum += num;
-        this.setState({ answer: sum });
+        setAnswer(sum);
       });
     } else if (option === "average") {
       array.forEach((num) => {
         const avg = (sum += num) / array.length;
-        this.setState({ answer: avg });
+        setAnswer(avg);
       });
     } else if (option === "mode") {
       let occurrence = {};
@@ -34,12 +37,14 @@ class Calculate extends React.Component {
           occurrence[el] = 1;
         }
       });
-      const mostFreq = this.findMostFreq(occurrence);
-      this.setState({ answer: mostFreq });
+      const mostFreq = findMostFreq(occurrence);
+      setAnswer(mostFreq);
     }
   };
 
-  findMostFreq = (occurrence) => {
+  const findMostFreq = (occurrence) => {
+    debugger;
+    console.log(occurrence);
     let maxCount = 0;
     let mostFreq;
     for (let el in occurrence) {
@@ -51,39 +56,31 @@ class Calculate extends React.Component {
     return mostFreq;
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
-    this.doMath();
+    doMath();
   };
-  render() {
-    const { input, option, answer } = this.state;
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <p>Enter each number in the array, separated by a ','</p>
-          <input
-            type="text"
-            name="input"
-            value={input}
-            onChange={this.handleChange}
-          />
-        </label>
-        <br />
-        <br />
-        <select value={option} onChange={this.handleOptions}>
-          <option value="" defaultValue disabled></option>
-          <option value="sum">Sum</option>
-          <option value="average">Average</option>
-          <option value="mode">Mode</option>
-        </select>
-        <br />
-        <br />
-        <button>Calculate</button>
-        <p>{answer}</p>
-      </form>
-    );
-  }
-}
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        <p>Enter each number in the array, separated by a ','</p>
+        <input type="text" name="input" value={input} onChange={handleChange} />
+      </label>
+      <br />
+      <br />
+      <select value={option} onChange={handleOptions}>
+        <option value="" defaultValue disabled></option>
+        <option value="sum">Sum</option>
+        <option value="average">Average</option>
+        <option value="mode">Mode</option>
+      </select>
+      <br />
+      <br />
+      <button>Calculate</button>
+      <p>{answer}</p>
+    </form>
+  );
+};
 
 export default Calculate;
