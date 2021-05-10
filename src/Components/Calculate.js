@@ -9,27 +9,47 @@ class Calculate extends React.Component {
 
   calculateSum = () => {
     const { input } = this.state;
-    const newArr = input.split(",").map(Number);
-    return newArr.reduce((acc, el) => acc + el, 0)
+    const userInput = input.split(",").map(Number);
+    return userInput.reduce((acc, el) => acc + el, 0);
   };
 
   calculateAverage = (sum) => {
     const { input } = this.state;
-    const newArr = input.split(",").map(Number);
-      return this.setState({ result: sum / newArr.length})
-  }
+    const userInput = input.split(",");
+    return this.setState({ result: sum / userInput.length });
+  };
+
+  calculateMode = () => {
+    const { input } = this.state;
+    const userInput = input.split(",").map(Number);
+    const getOccurances = {};
+    userInput.forEach((el) => {
+      getOccurances[el] ? (getOccurances[el] += 1) : (getOccurances[el] = 1);
+    });
+
+    let mostCommon = -Infinity;
+    let commonElement;
+    for (let key in getOccurances) {
+      if (getOccurances[key] > mostCommon) {
+        mostCommon = getOccurances[key];
+        commonElement = key;
+      }
+    }
+    return parseInt(commonElement) ?
+      this.setState({ result: parseInt(commonElement) })
+    :
+      this.setState({ result: commonElement });  
+  };
 
   handleCalculation = () => {
     const { mathDefault } = this.state;
-    // const newArr = input.split(",").map(Number);
     let sum = this.calculateSum();
     if (mathDefault === "sum") {
-      this.setState({ result: sum })
+      this.setState({ result: sum });
     } else if (mathDefault === "average") {
-      this.calculateAverage(sum)
+      this.calculateAverage(sum);
     } else if (mathDefault === "mode") {
-      // solve for mode
-      this.setState({ result: "hi"})
+      this.calculateMode();
     }
   };
 
