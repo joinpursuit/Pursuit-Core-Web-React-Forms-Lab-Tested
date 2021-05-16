@@ -1,7 +1,7 @@
 import "./App.css";
 import Calculate from "./Components/Calculate";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
      <Calculate />
