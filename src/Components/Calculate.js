@@ -35,10 +35,9 @@ class Calculate extends React.Component {
         commonElement = key;
       }
     }
-    return parseInt(commonElement) ?
-      this.setState({ result: parseInt(commonElement) })
-    :
-      this.setState({ result: commonElement });  
+    return parseInt(commonElement)
+      ? this.setState({ result: parseInt(commonElement) })
+      : this.setState({ result: commonElement });
   };
 
   handleCalculation = () => {
@@ -52,12 +51,24 @@ class Calculate extends React.Component {
       this.calculateMode();
     }
   };
-
-  handleInputCalculate = (e) => {
+ 
+  handleSubmit = (e) => {
     e.preventDefault();
-    this.handleCalculation();
+    const { input } = this.state;
+    const letters = /[A-Za-z]/
+    // const validInput = [1,2,3,4,5,6,7,8,9,0,","];
+    // const invalidInput = /[A-z]/g
+    if (input.match(letters) || input === "") {
+      this.setState({
+          result: "Invalid input.",
+          mathDefault: ""
+          
+        })
+      } else {
+        this.handleCalculation();
+      }
   };
-
+ 
   handleInputChange = (e) => {
     this.setState({
       input: e.target.value,
@@ -72,7 +83,7 @@ class Calculate extends React.Component {
     const { input, result, mathDefault } = this.state;
     return (
       <>
-        <form onSubmit={this.handleInputCalculate}>
+        <form onSubmit={this.handleSubmit}>
           <label>
             Enter each number in the array, separated by a ','
             <input onChange={this.handleInputChange} value={input} />
@@ -91,3 +102,62 @@ class Calculate extends React.Component {
 }
 
 export default Calculate;
+
+ // handleClick = () => {
+  //   const { input } = this.state;
+  //   if (input.includes("a")) {
+  //     this.setState({
+  //       result: "Invalid input.",
+  //     });
+  //   }
+  // }
+
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const { input } = this.state;
+  //   if (input === "") {
+  //     this.setState({
+  //       result: "Invalid input.",
+  //     });
+  //   } else if (input.search(/([A-z])\w+/g)) {
+  //     this.setState({
+  //       result: "Invalid input.",
+  //     });
+  // } else {
+  //     this.handleCalculation();
+  //   }
+  // };
+
+ // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const { input } = this.state;
+  //   input === ""
+  //     ? this.setState({
+  //         result: "Invalid input.",
+  //       })
+  //     : this.handleCalculation();
+  // };
+
+  // add check for consecutive commas (,)
+  // *** /^[^,]+,[^,]+$/gm *** ==> no start or end comma
+  // [A-z] ==> match A-Z and a-z
+  // /^[0-9,]+$/
+  // ^[0-9]*$
+  // ^[0-9,;]+$
+  // !\d|,, ==> not a number or 2commas
+  // \d|\,
+  // (\d{0,3},)?(\d{3},)?\d{0,3}
+  // ^[aeiou]$ ==> not a letter
+  // \d{6}, ==> 6 digits before comma
+  // handleInputChange = (e) => {
+  //   const { input } = this.state;
+  //   if (input.includes("a")) {
+  //     this.setState({
+  //       result: "Invalid input.",
+  //     });
+  //   } else {
+  //     this.setState({
+  //       input: e.target.value,
+  //     });
+  //   }
+  // };
