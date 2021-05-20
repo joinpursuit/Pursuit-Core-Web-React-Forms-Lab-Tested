@@ -1,18 +1,12 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      text: "",
-      option: "",
-      variable: "",
-    };
-  }
+const App = () => {
+  const [text, setText] = useState("");
+  const [option, setOption] = useState("");
+  const [variable, setVariable] = useState("");
 
-  validity = () => {
-    const { text, option } = this.state;
+  const validity = () => {
     let arr = text.split("");
     let every = arr.every((elem) => {
       return !isNaN(elem) || elem === ",";
@@ -20,8 +14,7 @@ class App extends Component {
     return every && text && option;
   };
 
-  sumFunction = () => {
-    const { text, option, variable } = this.state;
+  const sumFunction = () => {
     let arr = text.split(",");
     let sum = 0;
     arr.forEach((elem) => {
@@ -30,19 +23,17 @@ class App extends Component {
     return sum;
   };
 
-  avgFunction = () => {
-    const { text, option, variable } = this.state;
+  const avgFunction = () => {
     let arr = text.split(",");
     let count = 0;
-    let sum = this.sumFunction();
+    let sum = sumFunction();
     arr.forEach((elem) => {
       count++;
     });
     return sum / count;
   };
 
-  modeFunction = () => {
-    const { text, option, variable } = this.state;
+  const modeFunction = () => {
     let arr = text.split(",");
     let count = 0;
     let element = 0;
@@ -64,71 +55,54 @@ class App extends Component {
     return element;
   };
 
-  handleFormSubmit = (event) => {
-    const { text, option } = this.state;
+  const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (this.validity()) {
+    if (validity()) {
       if (option === "sum") {
-        this.setState({
-          variable: this.sumFunction(),
-        });
+        setVariable(sumFunction());
       }
       if (option === "average") {
-        this.setState({
-          variable: this.avgFunction(),
-        });
+        setVariable(avgFunction());
       }
       if (option === "mode") {
-        this.setState({
-          variable: this.modeFunction(),
-        });
+        setVariable(modeFunction());
       }
     } else {
-      this.setState({
-        variable: "Invalid input.",
-      });
+      setVariable("Invalid input.");
     }
   };
 
-  inputChange = (e) => {
+  const inputChange = (e) => {
     const { value } = e.target;
-    this.setState({
-      text: value,
-    });
+    setText(value);
   };
 
-  selectChange = (e) => {
+  const selectChange = (e) => {
     const { value } = e.target;
-    this.setState({
-      option: value,
-    });
+    setOption(value);
   };
 
-  render() {
-    const { text, option, variable } = this.state;
-
-    return (
-      <div className="App">
-        <div>
-          <h1>Enter each number in the array, separated by a "," </h1>
-        </div>
-
-        <div>
-          <form onSubmit={this.handleFormSubmit}>
-            <input value={text} onChange={this.inputChange} type="text" id="" />
-            <select onChange={this.selectChange} value={option} id="">
-              <option value=""></option>
-              <option value="sum">sum</option>
-              <option value="average">average</option>
-              <option value="mode">mode</option>
-            </select>
-            <button type="submit">Calculate</button>
-            <p>{variable}</p>
-          </form>
-        </div>
+  return (
+    <div className="App">
+      <div>
+        <h1>Enter each number in the array, separated by a "," </h1>
       </div>
-    );
-  }
-}
+
+      <div>
+        <form onSubmit={handleFormSubmit}>
+          <input value={text} onChange={inputChange} type="text" id="" />
+          <select onChange={selectChange} value={option} id="">
+            <option value=""></option>
+            <option value="sum">sum</option>
+            <option value="average">average</option>
+            <option value="mode">mode</option>
+          </select>
+          <button type="submit">Calculate</button>
+          <p>{variable}</p>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default App;
