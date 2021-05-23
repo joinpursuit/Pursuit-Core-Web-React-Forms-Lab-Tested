@@ -1,96 +1,86 @@
-import React from "react";
+import { useState } from "react";
 
-class Calculator extends React.Component {
-  state = {
-    input: "",
-    value: "",
-    answer: "",
-  };
-  numArray = [];
+const Calculate = () => {
+  const [input, setInput] = useState("");
+  const [option, setOption] = useState("");
+  const [answer, setAnswer] = useState("");
 
-  handleInput = (e) => {
-    this.setState({ input: e.target.value });
+  const handleChange = (e) => {
+    setInput(e.target.value);
   };
 
-  handleValue = (e) => {
-    this.setState({ value: e.target.value });
+  const handleOptions = (e) => {
+    setOption(e.target.value);
   };
 
-  checkNum = () => {
-    const { input } = this.state;
-    this.numArray = input.split(",").map((el) => Number(el));
-    return this.numArray.map((num) => {
-      return !isNaN(num);
-    });
-  };
-
-  calcSum = () => {
+  const checkNum = () => {
+    const array = input.split(",").map(Number);
     let sum = 0;
-    this.numArray.forEach((num) => {
-      sum += num;
-    });
-    this.setState({ answer: sum });
-    return sum;
+    if (option === "sum") {
+      array.forEach((num) => {
+        sum += num;
+        setAnswer(sum);
+      });
+    } else if (option === "average") {
+      array.forEach((num) => {
+        const avg = (sum += num) / array.length;
+        setAnswer(avg);
+      });
+    } else if (option === "mode") {
+      let occurrence = {};
+      array.forEach((el) => {
+        if (occurrence[el]) {
+          occurrence[el] += 1;
+        } else {
+          occurrence[el] = 1;
+        }
+      });
+
+      const mostFreq = findMostFreq(occurrence);
+      setAnswer(mostFreq);
+    }
   };
 
-  calcAverage = () => {
-    let total = this.calcSum();
-    this.setState({ answer: total / this.numArray.length });
-  };
-
-  calcMode= () => {
-    const object = {};
-    let num = 0;
-    let highestKey = 0;
-
-    this.numArray.forEach((number) => {
-      object[number] = (object[number] || 0) + 1;
-    });
-
-    for (let key in object) {
-      const value = object[key];
-      if (value > num) {
-        num = value;
-        highestKey = key;
+  const findMostFreq = (occurrence) => {
+    debugger;
+    console.log(occurrence);
+    let maxCount = 0;
+    let mostFreq;
+    for (let el in occurrence) {
+      if (occurrence[el] > maxCount) {
+        maxCount = occurrence[el];
+        mostFreq = el;
       }
     }
-    this.setState({ answer: highestKey });
+    return mostFreq;
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (this.state.value === "sum" && this.checkNum()) {
-      this.calcSum();
-    } else if (this.state.value === "average" && this.checkNum()) {
-      this.calcAverage();
-    } else if (this.state.value === "mode" && this.checkNum()) {
-      this.calcMode();
-    } else {
-      this.setState({ answer: "Invalid input." });
-    }
+    checkNum();
   };
 
-  render() {
-    const { input, value, answer } = this.state;
-    return (
-      <div>
-        <h1>Enter each number in the array, separated by a ","</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input value={input} onChange={this.handleInput} />
-          <br />
-          <select onChange={this.handleValue} value={value}>
-            <option></option>
-            <option>sum</option>
-            <option>average</option>
-            <option>mode</option>
-          </select>
-          <br />
-          <button type="submit">Calculate</button>
-        </form>
-        <p>{answer}</p>
-      </div>
-    );
-  }
-}
-export default Calculator;
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        <p>Enter each number in the array, separated by a ','</p>
+        <input type="text" name="input" value={input} onChange={handleChange} />
+      </label>
+      <br />
+      <br />
+      <select value={option} onChange={handleOptions}>
+        <option value="" defaultValue disabled></option>
+        <option value="sum">Sum</option>
+        <option value="average">Average</option>
+        <option value="mode">Mode</option>
+      </select>
+      <br />
+      <br />
+      <button>Calculate</button>
+      <p>{answer}</p>
+    </form>
+  );
+};
+
+export default Calculate;
+
