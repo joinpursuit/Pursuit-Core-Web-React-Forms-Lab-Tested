@@ -1,4 +1,4 @@
-/* import React, { Component } from 'react'
+import React, { Component } from 'react'
 
 export class Calculator extends Component {
     constructor(){
@@ -95,10 +95,10 @@ export class Calculator extends Component {
     }
 }
 
-export default Calculator */
+export default Calculator 
 
 
-import React, {useState} from 'react'
+/* import React, {useState} from 'react'
 
 export default function Calculator() {
     const [inputNumbers, setInputNumbers] = useState("")
@@ -183,3 +183,4 @@ export default function Calculator() {
         </div>
     )
 }
+*/
