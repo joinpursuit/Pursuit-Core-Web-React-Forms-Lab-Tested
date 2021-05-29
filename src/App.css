@@ -2,6 +2,21 @@
   text-align: center;
 }
 
+.input {
+  text-align: center;
+}
+
+.selectBox {
+  display: block;
+  text-align: center;
+  margin-left: 45%;
+}
+
+.calc_button {
+  display: block;
+  margin-left: 45%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -36,3 +51,5 @@
     transform: rotate(360deg);
   }
 }
+
+
