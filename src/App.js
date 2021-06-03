@@ -1,10 +1,11 @@
-import logo from './logo.svg'
 import './App.css'
+import Calculator from './Components/Calculator'
 
 function App() {
 	return (
-		<div className='app'>
-			<h1>Hello World!</h1>
+		<div className='App'>
+			<h3>Enter each number in the array, separated by a ' , '</h3>
+			<Calculator />
 		</div>
 	)
 }
