@@ -1,115 +1,85 @@
-import React, { Component } from 'react'
+//React Hooks Lab: refactored to Hooks
 
-export class Form extends Component {
-    constructor(){
-        super()
-        this.state = {
-            input: "",
-            value: "",
-            result:""
+import { useState } from "react";
+
+const Form = () => {
+  const [input, setInput] = useState("");
+  const [option, setOption] = useState("");
+  const [answer, setAnswer] = useState("");
+
+  const handleChange = (e) => {
+    setInput(e.target.value);
+  };
+
+  const handleOptions = (e) => {
+    setOption(e.target.value);
+  };
+
+  const doMath = () => {
+    const array = input.split(",").map(Number);
+    let sum = 0;
+    if (option === "sum") {
+      array.forEach((num) => {
+        sum += num;
+        setAnswer(sum);
+      });
+    } else if (option === "average") {
+      array.forEach((num) => {
+        const avg = (sum += num) / array.length;
+        setAnswer(avg);
+      });
+    } else if (option === "mode") {
+      let timesHappened = {};
+      array.forEach((element) => {
+        if (timesHappened[element]) {
+          timesHappened[element] += 1;
+        } else {
+          timesHappened[element] = 1;
         }
+      });
+      const common = frequentfunc(timesHappened);
+      setAnswer(common);
     }
+  };
 
-    changedInputs = (e) => {
-        this.setState({input: e.target.value})       
+  const frequentfunc = (timesHappened) => {
+    debugger;
+    console.log(timesHappened);
+    let totalCounted = 0;
+    let common;
+    for (let element in timesHappened) {
+      if (timesHappened[element] > totalCounted) {
+        totalCounted = timesHappened[];
+        common = element;
+      }
     }
-    changedValues = (e) => {
-        this.setState({value: e.target.value})
-    }
+    return common;
+  };
 
-    valid = () => {
-        const { input, value } = this.state;
-             let array = input.split("");
-             let doesIt = array.every((el) => {
-                 return !isNaN(el) || el === ",";
-        });
-                    return doesIt && input && value;
-   }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    doMath();
+  };
 
-   
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        <input type="text" name="input" value={input} onChange={handleChange} />
+      </label>
+      <br />
+      <br />
+      <select value={option} onChange={handleOptions}>
+        <option value="" defaultValue disabled></option>
+        <option value="sum">Sum</option>
+        <option value="average">Average</option>
+        <option value="mode">Mode</option>
+      </select>
+      <br />
+      <br />
+      <button>Calculate</button>
+      <p>{answer}</p>
+    </form>
+  );
+};
 
-
-
-
-
-
-
-
-   
-
-    handleCalculate = (e) => {
-        e.preventDefault()
-        if (this.state.value === "sum" && this.valid() ){ this.sum()} 
-        else if (this.state.value === "average" && this.valid()){this.average()} 
-        else if (this.state.value === "mode" && this.valid()){this.mode()} 
-        else {this.setState({result:"Invalid"})}}
-
-    sum = () => {
-        const { input } = this.state;
-        let arr = input.split(",");
-        let sum = 0;
-        arr.forEach((elem) => {
-          sum += Number(elem);
-        });
-        return sum;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    average = () => {
-    }
-
-    mode = () => {
-       
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    render() {
-        const {input,value,result} = this.state
-        return (
-            <> 
-            <form onSubmit={this.handleCalculate}>
-                <input 
-                    type="text"
-                    name="input"
-                    id="input"
-                    onChange={this.changedInputs}
-                    value = {input}
-                /> 
-                <select onChange={this.changedValues} value={value}>
-                    <option > </option>
-                    <option value="sum">sum</option>
-                    <option value="average">average</option>
-                    <option value="mode">mode</option>
-                </select>
-                <button>Calculate</button>
-            </form>
-            <p> {result}</p>
-            </>
-            
-        )
-    }
-}
-
-export default Form
+export default Form;
